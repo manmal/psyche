@@ -1,0 +1,14 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* This file is for your main application CSS */
+
+/* @font-face {
+    font-family: 'Merriweather';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+      url('/fonts/merriweather-regular.woff2') format('woff2'),
+      url('/fonts/merriweather-regular.woff') format('woff'),
+  } */
