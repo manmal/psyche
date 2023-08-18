@@ -9,11 +9,11 @@ import Config
 config :yourhappyfamily, Yourhappyfamily.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
+  http: [ip: {127, 0, 0, 1}, port: 4001],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "wfcldiuOHlY1FPRWQiOHlUTpr++uEIwOc68y0Pl55fLrhjraVQE9xEEJf21XpMqF",
+  secret_key_base: "hl3YZn/daSXzJleb07L3rFQzc7FUNwVq6Omt9x1e1xNITj1pTreN7sGUJZ2Tw6vV",
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
@@ -47,7 +47,6 @@ config :yourhappyfamily, Yourhappyfamily.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
       ~r"lib/yourhappyfamily/(controllers|live|components)/.*(ex|heex)$"
     ]
   ]
@@ -68,7 +67,7 @@ config :psychemitherz, Psychemitherz.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "shrDVe+Hhh/HfVqf/t84l42Inny4gM+PhWQ6RfBVxy9YriVRIMDtyRMx5LGSxizy",
+  secret_key_base: "5O14t87Yfd9yMPdZfOKplVzuAMDYXqxcyVV8XL9ie0V68yagIz8WMWCGYBep9UbB",
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
@@ -102,7 +101,6 @@ config :psychemitherz, Psychemitherz.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
       ~r"lib/psychemitherz/(controllers|live|components)/.*(ex|heex)$"
     ]
   ]

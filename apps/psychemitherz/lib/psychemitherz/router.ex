@@ -18,6 +18,11 @@ defmodule Psychemitherz.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/uebermich", PageController, :about
+    get "/vcard", PageController, :vcard
+    get "/therapie", PageController, :therapy
+    get "/beratungen", PageController, :counseling
+    get "/kontakt", PageController, :contact
   end
 
   # Other scopes may use custom stacks.

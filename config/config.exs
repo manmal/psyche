@@ -10,7 +10,6 @@
 import Config
 
 config :yourhappyfamily,
-  ecto_repos: [Yourhappyfamily.Repo],
   generators: [context_app: false]
 
 # Configures the endpoint
@@ -21,14 +20,14 @@ config :yourhappyfamily, Yourhappyfamily.Endpoint,
     layout: false
   ],
   pubsub_server: Yourhappyfamily.PubSub,
-  live_view: [signing_salt: "l36E62t5"]
+  live_view: [signing_salt: "tAZlyxjP"]
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
   default: [
     args:
-      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/* --loader:.woff=file),
     cd: Path.expand("../apps/yourhappyfamily/assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
@@ -46,7 +45,6 @@ config :tailwind,
   ]
 
 config :psychemitherz,
-  ecto_repos: [Psychemitherz.Repo],
   generators: [context_app: false]
 
 # Configures the endpoint
@@ -57,14 +55,14 @@ config :psychemitherz, Psychemitherz.Endpoint,
     layout: false
   ],
   pubsub_server: Psychemitherz.PubSub,
-  live_view: [signing_salt: "3iz0bBr3"]
+  live_view: [signing_salt: "6pekGTvR"]
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
   default: [
     args:
-      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/* --loader:.woff=file --loader:.woff2=file --loader:.css=css),
     cd: Path.expand("../apps/psychemitherz/assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]

@@ -43,7 +43,6 @@ defmodule Yourhappyfamily do
         layouts: [html: Yourhappyfamily.Layouts]
 
       import Plug.Conn
-      import Yourhappyfamily.Gettext
 
       unquote(verified_routes())
     end
@@ -85,7 +84,6 @@ defmodule Yourhappyfamily do
       import Phoenix.HTML
       # Core UI components and translation
       import Yourhappyfamily.CoreComponents
-      import Yourhappyfamily.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

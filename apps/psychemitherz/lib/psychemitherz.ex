@@ -43,7 +43,6 @@ defmodule Psychemitherz do
         layouts: [html: Psychemitherz.Layouts]
 
       import Plug.Conn
-      import Psychemitherz.Gettext
 
       unquote(verified_routes())
     end
@@ -85,7 +84,12 @@ defmodule Psychemitherz do
       import Phoenix.HTML
       # Core UI components and translation
       import Psychemitherz.CoreComponents
-      import Psychemitherz.Gettext
+
+      import Psychemitherz.GlobalHtml
+      import Psychemitherz.NavigationHtml
+      import Psychemitherz.CVTable
+      import Psychemitherz.GlobalSVG
+      import Psychemitherz.ContactData
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
@@ -95,6 +99,9 @@ defmodule Psychemitherz do
     end
   end
 
+  @spec verified_routes ::
+          {:use, [{:column, 7} | {:context, Psychemitherz} | {:imports, [...]}, ...],
+           [[{any, any}, ...] | {:__aliases__, [...], [...]}, ...]}
   def verified_routes do
     quote do
       use Phoenix.VerifiedRoutes,

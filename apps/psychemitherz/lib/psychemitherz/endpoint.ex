@@ -7,7 +7,7 @@ defmodule Psychemitherz.Endpoint do
   @session_options [
     store: :cookie,
     key: "_psychemitherz_key",
-    signing_salt: "49aIDvZw",
+    signing_salt: "us69uf16",
     same_site: "Lax"
   ]
 
@@ -29,7 +29,6 @@ defmodule Psychemitherz.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :psychemitherz
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,

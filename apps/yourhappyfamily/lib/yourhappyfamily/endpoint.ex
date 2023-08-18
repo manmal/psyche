@@ -7,7 +7,7 @@ defmodule Yourhappyfamily.Endpoint do
   @session_options [
     store: :cookie,
     key: "_yourhappyfamily_key",
-    signing_salt: "BTE1ISd6",
+    signing_salt: "EvHDxi6k",
     same_site: "Lax"
   ]
 
@@ -29,7 +29,6 @@ defmodule Yourhappyfamily.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :yourhappyfamily
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,

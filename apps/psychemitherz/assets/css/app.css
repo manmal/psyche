@@ -4,11 +4,64 @@
 
 /* This file is for your main application CSS */
 
-/* @font-face {
+@layer base {
+  html {
+    @apply text-red-700 text-base md:text-md tracking-normal;
+  } 
+
+  b {
+    @apply font-medium;
+  }
+
+  p {
+    @apply my-4;
+  }
+
+  h1 {
+    @apply text-lg md:text-xl font-serif font-medium tracking-normal;
+  }
+
+  h2 {
+    @apply text-md md:text-lg font-serif font-medium;
+  }
+
+  h3 {
+    @apply text-md md:text-lg font-sans font-medium;
+  }
+}
+
+@font-face {
     font-family: 'Merriweather';
     font-style: normal;
-    font-weight: 400;
+    font-weight: medium;
     src: local(''),
       url('/fonts/merriweather-regular.woff2') format('woff2'),
       url('/fonts/merriweather-regular.woff') format('woff'),
-  } */
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+      url('/fonts/Inter-Regular.woff2') format('woff2'),
+      url('/fonts/Inter-Regular.woff') format('woff'),
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    src: local(''),
+      url('/fonts/Inter-Medium.woff2') format('woff2'),
+      url('/fonts/Inter-Medium.woff') format('woff'),
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    src: local(''),
+      url('/fonts/Inter-SemiBold.woff2') format('woff2'),
+      url('/fonts/Inter-SemiBold.woff') format('woff'),
+  }
