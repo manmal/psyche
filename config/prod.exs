@@ -15,6 +15,7 @@ config :yourhappyfamily, Yourhappyfamily.Endpoint,
 # which you should run after static files are built and
 # before starting your production server.
 config :psychemitherz, Psychemitherz.Endpoint,
-  url: [host: "psychemitherz.at", port: 4000],
+  http: [port: 4000, ip: {127, 0, 0, 1}],
+  url: [host: "psychemitherz.at", port: 443],
   server: true,
   cache_static_manifest: "priv/static/cache_manifest.json"
