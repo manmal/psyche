@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  psychemitherz:
+    build:
+      context: .
+      dockerfile: ./apps/psychemitherz/Dockerfile
+    environment:
+      MIX_ENV: prod
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    ports:
+      - "4000:4000"
+    command: /app/bin/psychemitherz start
