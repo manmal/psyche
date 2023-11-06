@@ -9,6 +9,11 @@ services:
     environment:
       MIX_ENV: prod
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    networks:
+      - webnet
     ports:
       - "4000:4000"
     command: /app/bin/psychemitherz start
+networks:
+  webnet:
+    external: true
