@@ -257,7 +257,12 @@ defmodule Psychemitherz.GlobalHtml do
             bg-contain bg-[position:top_right] bg-blend-multiply bg-no-repeat scroll-mt-16
             #{if(assigns[:url] != nil, do: "cursor-pointer", else: "")}"}
       id={to_slug(@title)}
-      onclick={if(assigns[:url] != nil, do: "window.open('#{@url}', )", else: "")}
+      onclick={
+        if(assigns[:url] != nil,
+          do: "window.location.href = '#{@url}'; event.preventDefault();",
+          else: ""
+        )
+      }
     >
       <h2><%= @title %></h2>
       <div :if={assigns[:subtitle] != nil} class="text-[0.93rem] -mt-1 grow">
