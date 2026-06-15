@@ -38,6 +38,10 @@ defmodule Psychemitherz.CVTable do
   def cv_table_psychemitherz_educations(assigns) do
     educations = [
       %CVTableItem{
+        timespan: "2026",
+        title: "Eintragung als Psychotherapeutin in die Berufsliste des Bundesministeriums"
+      },
+      %CVTableItem{
         timespan: "seit 2023",
         title: "Berechtigung zur eigenständigen psychotherapeutischen Tätigkeit"
       },
