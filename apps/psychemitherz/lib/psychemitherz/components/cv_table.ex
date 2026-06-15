@@ -89,8 +89,12 @@ defmodule Psychemitherz.CVTable do
   def cv_table_psychemitherz_experiences(assigns) do
     work_experiences = [
       %CVTableItem{
-        timespan: "seit 2023",
+        timespan: "seit 2026",
         title: "Psychotherapeutin in selbstständiger Praxis"
+      },
+      %CVTableItem{
+        timespan: "2023-2026",
+        title: "Psychotherapeutin in Ausbildung unter Supervision in selbstständiger Praxis"
       },
       %CVTableItem{
         timespan: "2021",
