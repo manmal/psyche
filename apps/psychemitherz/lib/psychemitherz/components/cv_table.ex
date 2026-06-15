@@ -39,7 +39,7 @@ defmodule Psychemitherz.CVTable do
     educations = [
       %CVTableItem{
         timespan: "seit 2023",
-        title: "Berechtigung zur eigenständigen psychotherapeutischen Tätigkeit unter Supervision"
+        title: "Berechtigung zur eigenständigen psychotherapeutischen Tätigkeit"
       },
       %CVTableItem{
         timespan: "seit 2021",
@@ -86,7 +86,7 @@ defmodule Psychemitherz.CVTable do
     work_experiences = [
       %CVTableItem{
         timespan: "seit 2023",
-        title: "Psychotherapeutin in Ausbildung unter Supervision in selbstständiger Praxis"
+        title: "Psychotherapeutin in selbstständiger Praxis"
       },
       %CVTableItem{
         timespan: "2021",
