@@ -1,14 +1,30 @@
-<!DOCTYPE html>
-<html lang="en" class="[scrollbar-gutter:stable]">
+<!DOCTYPE html> <% seo = assigns[:seo] || Psychemitherz.SEO.page(:home) %>
+<html lang={seo.language} class="[scrollbar-gutter:stable]">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title>
-      <%= assigns[:page_title] || "Psychemitherz" %>
-    </.live_title>
-    <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
-    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
+    <title><%= seo.title %></title>
+    <meta name="description" content={seo.description} />
+    <link rel="canonical" href={seo.canonical_url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_AT" />
+    <meta property="og:site_name" content="Psychemitherz" />
+    <meta property="og:title" content={seo.title} />
+    <meta property="og:description" content={seo.description} />
+    <meta property="og:url" content={seo.canonical_url} />
+    <meta property="og:image" content={seo.social_image} />
+    <meta property="og:image:alt" content="Psychemitherz" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={seo.title} />
+    <meta name="twitter:description" content={seo.description} />
+    <meta name="twitter:image" content={seo.social_image} />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="sitemap" type="application/xml" href={~p"/sitemap.xml"} />
+    <script type="application/ld+json">
+      <%= raw(Jason.encode!(seo.structured_data)) %>
+    </script>
+    <link rel="stylesheet" href={~p"/assets/app.css"} />
+    <script defer src={~p"/assets/app.js"}>
     </script>
   </head>
   <body class="bg-creme antialiased">

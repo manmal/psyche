@@ -10,7 +10,7 @@ defmodule Psychemitherz.MenuItemLeaf do
 
   @type t :: %MenuItemLeaf{
           title: String.t(),
-          url: String.t()
+          url: String.t() | nil
         }
 end
 
@@ -47,7 +47,13 @@ defmodule Psychemitherz.NavigationHtml do
               id="header-info"
             >
               <a href={~p"/"}>
-                <img src={~p"/images/logo_compact.svg"} class="w-9 lg:w-10" />
+                <img
+                  src={~p"/images/logo_compact.svg"}
+                  width="46"
+                  height="34"
+                  alt="Psychemitherz"
+                  class="w-9 lg:w-10"
+                />
               </a>
               <.name_and_email />
             </div>
@@ -65,7 +71,14 @@ defmodule Psychemitherz.NavigationHtml do
 
   defp menu_mobile(%{items: [_ | _]} = assigns) do
     ~H"""
-    <div class="hidden mobile-menu bg-creme fixed top-0 left-0 right-0 bottom-0 z-50 h-screen">
+    <div
+      id="mobile-menu"
+      class="hidden mobile-menu bg-creme fixed top-0 left-0 right-0 bottom-0 z-50 h-screen"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Hauptmenü"
+      aria-hidden="true"
+    >
       <div class="fixed right-0 top-2.5"><.menu_button_mobile close?={true} /></div>
       <ul class="overflow-y-scroll h-full py-8">
         <%= for item <- @items do %>
@@ -73,27 +86,6 @@ defmodule Psychemitherz.NavigationHtml do
         <% end %>
       </ul>
     </div>
-    <script>
-      const header = document.getElementById("header");
-      const openButton = document.querySelector("button.mobile-menu-button-open");
-      const closeButton = document.querySelector("button.mobile-menu-button-close");
-      const menu = document.querySelector(".mobile-menu");
-      const menuIconPath = document.getElementById('menu-icon-path');
-      openButton.addEventListener("click", () => {
-        const isExpanded = header.style.height === "100vh";
-        header.style.height = "100vh";
-        menu.classList.remove('hidden');
-        header.classList.add('!bg-creme');
-        menuIconPath.setAttribute('d', "M4 4L20 20M4 20L20 4");
-      });
-      closeButton.addEventListener("click", () => {
-        const isExpanded = header.style.height === "100vh";
-        header.style.height = "auto";
-        menu.classList.add('hidden');
-        header.classList.remove('!bg-creme');
-        menuIconPath.setAttribute('d', "M2 6h20M2 12h20M2 18h20");
-      });
-    </script>
     """
   end
 
@@ -102,10 +94,16 @@ defmodule Psychemitherz.NavigationHtml do
   defp menu_button_mobile(assigns) do
     ~H"""
     <div class="md:hidden flex items-stretch">
-      <button class={"outline-none mobile-menu-button-#{if(@close?, do: "close", else: "open")} px-4"}>
+      <button
+        type="button"
+        class={"outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700 mobile-menu-button-#{if(@close?, do: "close", else: "open")} px-4"}
+        aria-label={if(@close?, do: "Menü schließen", else: "Menü öffnen")}
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+      >
         <svg
           class="w-8 h-8 text-red-700"
-          x-show="!showMenu"
+          aria-hidden="true"
           fill="none"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -113,14 +111,18 @@ defmodule Psychemitherz.NavigationHtml do
           viewBox="0 0 24 24"
           stroke="currentColor"
         >
-          <path
-            id="menu-icon-path"
-            d={if(@close?, do: "M4 4L20 20M4 20L20 4", else: "M2 6h20M2 12h20M2 18h20")}
-          >
-          </path>
+          <path d={if(@close?, do: "M4 4L20 20M4 20L20 4", else: "M2 6h20M2 12h20M2 18h20")}></path>
         </svg>
       </button>
     </div>
+    """
+  end
+
+  defp menu_item_mobile(%{item: %MenuItemLeaf{url: nil}} = assigns) do
+    ~H"""
+    <li class="active mt-1">
+      <span class="block text-lg px-8 py-2 font-semibold"><%= @item.title %></span>
+    </li>
     """
   end
 
@@ -139,14 +141,18 @@ defmodule Psychemitherz.NavigationHtml do
     <li class={"active mt-4 m-4 py-2 rounded-md
     #{if(@item.bg_css_class == "bg-yellow-200", do: "bg-yellow-200/50", else: "bg-green-200/50")}"}>
       <ul>
-        <div class={"text-sm mx-4 uppercase tracking-widest #{@item.title_css_class}"}>
+        <li class={"text-sm mx-4 uppercase tracking-widest #{@item.title_css_class}"}>
           <%= @item.title %>
-        </div>
+        </li>
         <%= for sub_item <- @item.sub_items do %>
           <li>
-            <a href={sub_item.url} class="block text-lg px-4 py-2 font-semibold">
-              <%= sub_item.title %>
-            </a>
+            <%= if sub_item.url do %>
+              <a href={sub_item.url} class="block text-lg px-4 py-2 font-semibold">
+                <%= sub_item.title %>
+              </a>
+            <% else %>
+              <span class="block text-lg px-4 py-2 font-semibold"><%= sub_item.title %></span>
+            <% end %>
           </li>
         <% end %>
       </ul>
@@ -174,13 +180,17 @@ defmodule Psychemitherz.NavigationHtml do
 
   defp menu_item_md(%{item: %MenuItemContainer{}} = assigns) do
     ~H"""
-    <div class="inline-block relative hover-menu-item">
-      <.menu_item_md_link title={@item.title} />
-      <div class="hidden -mx-4 -mt-2 px-4 pb-4 peer-hover:absolute peer-hover:flex hover:absolute hover:flex
+    <div class="inline-block relative hover-menu-item group">
+      <.menu_item_md_link title={@item.title} menu?={true} />
+      <div class="hidden -mx-4 -mt-2 px-4 pb-4 peer-hover:absolute peer-hover:flex group-focus-within:absolute group-focus-within:flex hover:absolute hover:flex
                  flex-col">
         <div class={"flex flex-col rounded-md #{@item.bg_css_class} overflow-hidden whitespace-nowrap text-[0.8rem] lg:text-[1rem]"}>
           <%= for sub_item <- @item.sub_items do %>
-            <a class="px-5 py-3 hover:bg-white/30" href={sub_item.url}><%= sub_item.title %></a>
+            <%= if sub_item.url do %>
+              <a class="px-5 py-3 hover:bg-white/30" href={sub_item.url}><%= sub_item.title %></a>
+            <% else %>
+              <span class="px-5 py-3"><%= sub_item.title %></span>
+            <% end %>
           <% end %>
         </div>
       </div>
@@ -190,6 +200,7 @@ defmodule Psychemitherz.NavigationHtml do
 
   attr :title, :string, required: true
   attr :url, :string, required: false
+  attr :menu?, :boolean, default: false
 
   defp menu_item_md_link(assigns) do
     assigns =
@@ -199,7 +210,13 @@ defmodule Psychemitherz.NavigationHtml do
     case assigns[:url] do
       nil ->
         ~H"""
-        <div class={"#{@shared_css} hover:cursor-default"}><%= @title %></div>
+        <button
+          type="button"
+          class={"#{@shared_css} hover:cursor-default"}
+          aria-haspopup={if(@menu?, do: "true", else: nil)}
+        >
+          <%= @title %>
+        </button>
         """
 
       _ ->

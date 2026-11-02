@@ -21,6 +21,8 @@ defmodule Psychemitherz.Endpoint do
     at: "/",
     from: :psychemitherz,
     gzip: false,
+    cache_control_for_etags: "public, max-age=0, must-revalidate",
+    cache_control_for_vsn_requests: "public, max-age=31536000, immutable",
     only: Psychemitherz.static_paths()
 
   # Code reloading can be explicitly enabled under the

@@ -24,17 +24,30 @@ defmodule Psychemitherz.GlobalHtml do
 
   attr :top_padding?, :boolean, default: true
   attr :center?, :boolean, default: false
+  attr :level, :integer, default: 2, values: [1, 2, 3]
   slot :inner_block, required: true
 
   def header_1(assigns) do
-    ~H"""
-    <h1 class={"text-2xl
-        #{if(assigns.top_padding?, do: "pt-10 md:pt-16", else: "")}
-        #{if(assigns.center?, do: "text-center", else: "")}
-        "}>
-      <%= render_slot(@inner_block) %>
-    </h1>
-    """
+    padding_class = if(assigns.top_padding?, do: "pt-10 md:pt-16", else: "")
+    center_class = if(assigns.center?, do: "text-center", else: "")
+    assigns = assign(assigns, :class, "text-2xl #{padding_class} #{center_class}")
+
+    case assigns.level do
+      1 ->
+        ~H"""
+        <h1 class={@class}><%= render_slot(@inner_block) %></h1>
+        """
+
+      2 ->
+        ~H"""
+        <h2 class={@class}><%= render_slot(@inner_block) %></h2>
+        """
+
+      3 ->
+        ~H"""
+        <h3 class={@class}><%= render_slot(@inner_block) %></h3>
+        """
+    end
   end
 
   slot :inner_block, required: true
@@ -55,6 +68,11 @@ defmodule Psychemitherz.GlobalHtml do
     <div class="relative">
       <img
         src={@path}
+        width="375"
+        height={if(String.contains?(@path, "wave-2"), do: "194", else: "85")}
+        alt=""
+        loading="lazy"
+        decoding="async"
         class={"w-full absolute opacity-70 -z-10 #{if(assigns[:css_class] != nil, do: @css_class, else: "")}"}
       />
     </div>
@@ -71,10 +89,22 @@ defmodule Psychemitherz.GlobalHtml do
     ~H"""
     <div class="relative shrink-0">
       <div class="absolute left-1/2 bg-green-300 w-32 h-44 rounded-md -mx-32"></div>
-      <img
-        src={~p"/images/bianca.jpg"}
-        class="relative w-[170px] h-[194px] mx-auto z-30 mt-8 rounded-md"
-      />
+      <picture data-portrait>
+        <source
+          srcset="/images/bianca-170.webp 170w, /images/bianca-340.webp 340w"
+          sizes="170px"
+          type="image/webp"
+        />
+        <img
+          src={~p"/images/bianca.jpg"}
+          width="510"
+          height="581"
+          alt="Mag.a Bianca Maly"
+          loading="lazy"
+          decoding="async"
+          class="relative w-[170px] h-[194px] mx-auto z-30 mt-8 rounded-md"
+        />
+      </picture>
     </div>
     """
   end
@@ -109,12 +139,14 @@ defmodule Psychemitherz.GlobalHtml do
   end
 
   attr :text, :string, default: "Mehr erfahren"
-  attr :url, :string, default: "#"
+  attr :url, :string, default: nil
   attr :overlay?, :boolean, default: false
 
   def link_arrow(assigns) do
     assigns =
       assigns
+      |> assign_new(:url, fn -> nil end)
+      |> assign_new(:overlay?, fn -> false end)
       |> assign(
         :bg_color_class,
         if(assigns.overlay?,
@@ -124,19 +156,27 @@ defmodule Psychemitherz.GlobalHtml do
       )
 
     ~H"""
-    <a
-      href={@url}
-      class={"inline-flex gap-1 px-2.5 py-1 font-sans no-underline
-      rounded-md text-red-700 font-medium #{@bg_color_class}"}
-      target={
-        if(String.starts_with?(@url, "/") || String.starts_with?(@url, "#"),
-          do: "_self",
-          else: "_blank"
-        )
-      }
-    >
-      <%= @text %> →
-    </a>
+    <%= if @url do %>
+      <a
+        href={@url}
+        class={"inline-flex gap-1 px-2.5 py-1 font-sans no-underline
+        rounded-md text-red-700 font-medium #{@bg_color_class}"}
+        target={
+          if(String.starts_with?(@url, "/") || String.starts_with?(@url, "#"),
+            do: "_self",
+            else: "_blank"
+          )
+        }
+        rel={if(String.starts_with?(@url, "/"), do: nil, else: "noopener noreferrer")}
+      >
+        <%= @text %> →
+      </a>
+    <% else %>
+      <span class={"inline-flex gap-1 px-2.5 py-1 font-sans no-underline
+        rounded-md text-red-700 font-medium #{@bg_color_class} "}>
+        <%= @text %> →
+      </span>
+    <% end %>
     """
   end
 
@@ -150,7 +190,14 @@ defmodule Psychemitherz.GlobalHtml do
       rounded-md text-red-700 font-medium bg-pink-base hover:bg-pink-light"
     >
       <%= @email %>
-      <img src={~p"/images/email_icon.svg"} class="w-4" />
+      <img
+        src={~p"/images/email_icon.svg"}
+        width="20"
+        height="16"
+        alt=""
+        aria-hidden="true"
+        class="w-4"
+      />
     </a>
     """
   end
@@ -179,7 +226,15 @@ defmodule Psychemitherz.GlobalHtml do
       class="inline-flex gap-2 px-2.5 py-1 font-sans
       rounded-md text-red-700 font-medium bg-yellow-500 hover:bg-yellow-300"
     >
-      Kontakt auf Ihrem Handy speichern <img src={~p"/images/download.svg"} class="w-4" />
+      Kontakt auf Ihrem Handy speichern
+      <img
+        src={~p"/images/download.svg"}
+        width="22"
+        height="22"
+        alt=""
+        aria-hidden="true"
+        class="w-4"
+      />
     </a>
     """
   end
@@ -189,10 +244,19 @@ defmodule Psychemitherz.GlobalHtml do
     <a
       href="https://www.instagram.com/psychemitherz/"
       target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Instagram"
       class="inline-flex gap-2 px-2.5 py-1 font-sans h-10 w-10 items-center justify-center
       rounded-md text-yellow-900 font-medium bg-gradient-to-br from-pink-400 to-yellow-300 hover:from-pink-300"
     >
-      <img src={~p"/images/instagram_logo.svg"} class="w-6" />
+      <img
+        src={~p"/images/instagram_logo.svg"}
+        width="25"
+        height="25"
+        alt=""
+        aria-hidden="true"
+        class="w-6"
+      />
     </a>
     """
   end
@@ -202,10 +266,19 @@ defmodule Psychemitherz.GlobalHtml do
     <a
       href="https://www.facebook.com/profile.php?id=100077709940441"
       target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Facebook"
       class="inline-flex gap-2 px-2.5 py-1 font-sans h-10 w-10 items-center justify-center
       rounded-md text-white font-medium bg-gradient-to-br from-blue-600 to-blue-400 hover:from-blue-500 hover:to-blue-300"
     >
-      <img src={~p"/images/facebook_logo.svg"} class="w-6" />
+      <img
+        src={~p"/images/facebook_logo.svg"}
+        width="22"
+        height="22"
+        alt=""
+        aria-hidden="true"
+        class="w-6"
+      />
     </a>
     """
   end
@@ -218,7 +291,14 @@ defmodule Psychemitherz.GlobalHtml do
       rounded-md text-red-700 font-medium bg-pink-base hover:bg-pink-light"
     >
       <%= phone() %>
-      <img src={~p"/images/phone_icon.svg"} class="w-4" />
+      <img
+        src={~p"/images/phone_icon.svg"}
+        width="20"
+        height="21"
+        alt=""
+        aria-hidden="true"
+        class="w-4"
+      />
     </a>
     """
   end
@@ -242,45 +322,101 @@ defmodule Psychemitherz.GlobalHtml do
     """
   end
 
+  attr :bg_image, :string, required: true
+  attr :bg_image_webp, :string, required: true
+  attr :width, :integer, required: true
+  attr :height, :integer, required: true
+
+  defp therapy_box_image(assigns) do
+    ~H"""
+    <picture data-therapy-card class="pointer-events-none absolute inset-0" aria-hidden="true">
+      <source srcset={@bg_image_webp} type="image/webp" width={@width} height={@height} />
+      <img
+        src={@bg_image}
+        width={@width}
+        height={@height}
+        alt=""
+        aria-hidden="true"
+        class="absolute inset-0 h-full w-full object-contain object-right-top mix-blend-multiply"
+      />
+    </picture>
+    """
+  end
+
+  attr :title, :string, required: true
+  attr :subtitle, :string, default: nil
+  attr :url, :string, default: nil
+  attr :link_text, :string, required: true
+
+  defp therapy_box_content(assigns) do
+    ~H"""
+    <h2 class="relative z-10"><%= @title %></h2>
+    <div :if={@subtitle} class="relative z-10 text-[0.93rem] -mt-1 grow"><%= @subtitle %></div>
+    <span
+      :if={@url}
+      class="relative z-10 inline-flex gap-1 px-2.5 py-1 font-sans no-underline
+      rounded-md text-red-700 font-medium bg-white/60 hover:bg-white"
+    >
+      <%= @link_text %> →
+    </span>
+    <div :if={@url} class="relative z-10 grow" />
+    """
+  end
+
   attr :title, :string, default: "Undefined title"
   attr :subtitle, :string, required: false
   attr :bg_color, :string, required: true
   attr :bg_image, :string, required: true
+  attr :bg_image_webp, :string, required: true
+  attr :bg_image_width, :integer, required: true
+  attr :bg_image_height, :integer, required: true
   attr :url, :string, required: false
 
   def therapy_box(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:subtitle, fn -> nil end)
+      |> assign_new(:url, fn -> nil end)
+
+    cursor_class = if(assigns[:url], do: "cursor-pointer no-underline", else: "")
+
+    link_text =
+      if(assigns[:url] && String.starts_with?(assigns.url, "/"),
+        do: "Mehr erfahren",
+        else: if(assigns[:url], do: remove_schema_and_subdomains(assigns.url), else: "")
+      )
+
+    assigns =
+      assigns
+      |> assign(
+        :wrapper_class,
+        "relative flex flex-col w-full items-start justify-center gap-2 px-3 py-2 md:px-6 md:py-4
+        min-h-[6rem] rounded-md #{assigns.bg_color} scroll-mt-16 #{cursor_class}"
+      )
+      |> assign(:link_text, link_text)
+
     ~H"""
-    <div
-      style={"--image-url: url(#{@bg_image})"}
-      class={"flex flex-col w-full items-start justify-center gap-2 px-3 py-2 md:px-6 md:py-4
-            min-h-[6rem] rounded-md #{@bg_color} bg-[image:var(--image-url)]
-            bg-contain bg-[position:top_right] bg-blend-multiply bg-no-repeat scroll-mt-16
-            #{if(assigns[:url] != nil, do: "cursor-pointer", else: "")}"}
-      id={to_slug(@title)}
-      onclick={
-        if(assigns[:url] != nil,
-          do: "window.location.href = '#{@url}'; event.preventDefault();",
-          else: ""
-        )
-      }
-    >
-      <h2><%= @title %></h2>
-      <div :if={assigns[:subtitle] != nil} class="text-[0.93rem] -mt-1 grow">
-        <%= @subtitle %>
+    <%= if @url do %>
+      <a href={@url} class={@wrapper_class} id={to_slug(@title)}>
+        <.therapy_box_image
+          bg_image={@bg_image}
+          bg_image_webp={@bg_image_webp}
+          width={@bg_image_width}
+          height={@bg_image_height}
+        />
+        <.therapy_box_content title={@title} subtitle={@subtitle} url={@url} link_text={@link_text} />
+      </a>
+    <% else %>
+      <div class={@wrapper_class} id={to_slug(@title)}>
+        <.therapy_box_image
+          bg_image={@bg_image}
+          bg_image_webp={@bg_image_webp}
+          width={@bg_image_width}
+          height={@bg_image_height}
+        />
+        <.therapy_box_content title={@title} subtitle={@subtitle} url={@url} link_text={@link_text} />
       </div>
-      <.link_arrow
-        :if={assigns[:url] != nil}
-        url={@url}
-        overlay?={true}
-        text={
-          if(String.starts_with?(@url, "/"),
-            do: "Mehr erfahren",
-            else: remove_schema_and_subdomains(@url)
-          )
-        }
-      />
-      <div :if={assigns[:url] != nil} class="grow" />
-    </div>
+    <% end %>
     """
   end
 

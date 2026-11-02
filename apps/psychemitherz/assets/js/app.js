@@ -1,45 +1,112 @@
-// If you want to use Phoenix channels, run `mix help phx.gen.channel`
-// to get started and then uncomment the line below.
-// import "./user_socket.js"
+function initializeMobileMenu() {
+  const header = document.getElementById("header");
+  const openButton = document.querySelector("button.mobile-menu-button-open");
+  const closeButton = document.querySelector("button.mobile-menu-button-close");
+  const menu = document.getElementById("mobile-menu");
+  const menuIconPath = openButton?.querySelector("path");
 
-// You can include dependencies in two ways.
-//
-// The simplest option is to put them in assets/vendor and
-// import them using relative paths:
-//
-//     import "../vendor/some-package.js"
-//
-// Alternatively, you can `npm install some-package --prefix assets` and import
-// them using a path starting with the package name:
-//
-//     import "some-package"
-//
+  if (!header || !openButton || !closeButton || !menu || !menuIconPath) {
+    return;
+  }
 
-// Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
-import "phoenix_html";
+  const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-// Establish Phoenix Socket and LiveView configuration.
-import { Socket } from "phoenix";
-import { LiveSocket } from "phoenix_live_view";
-import topbar from "../vendor/topbar";
+  function closeMenu() {
+    header.style.height = "auto";
+    menu.classList.add("hidden");
+    menu.setAttribute("aria-hidden", "true");
+    header.classList.remove("!bg-creme");
+    openButton.setAttribute("aria-expanded", "false");
+    closeButton.setAttribute("aria-expanded", "false");
+    menuIconPath.setAttribute("d", "M2 6h20M2 12h20M2 18h20");
+    openButton.focus();
+  }
 
-let csrfToken = document
-  .querySelector("meta[name='csrf-token']")
-  .getAttribute("content");
-let liveSocket = new LiveSocket("/live", Socket, {
-  params: { _csrf_token: csrfToken },
-});
+  function openMenu() {
+    header.style.height = "100vh";
+    menu.classList.remove("hidden");
+    menu.removeAttribute("aria-hidden");
+    header.classList.add("!bg-creme");
+    openButton.setAttribute("aria-expanded", "true");
+    closeButton.setAttribute("aria-expanded", "true");
+    menuIconPath.setAttribute("d", "M4 4L20 20M4 20L20 4");
+    closeButton.focus();
+  }
 
-// Show progress bar on live navigation and form submits
-topbar.config({ barColors: { 0: "#29d" }, shadowColor: "rgba(0, 0, 0, .3)" });
-window.addEventListener("phx:page-loading-start", (_info) => topbar.show(300));
-window.addEventListener("phx:page-loading-stop", (_info) => topbar.hide());
+  openButton.addEventListener("click", openMenu);
+  closeButton.addEventListener("click", closeMenu);
 
-// connect if there are any LiveViews on the page
-liveSocket.connect();
+  menu.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeMenu();
+      return;
+    }
 
-// expose liveSocket on window for web console debug logs and latency simulation:
-// >> liveSocket.enableDebug()
-// >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
-// >> liveSocket.disableLatencySim()
-window.liveSocket = liveSocket;
+    if (event.key !== "Tab") {
+      return;
+    }
+
+    const focusableElements = menu.querySelectorAll(focusableSelector);
+    const firstFocusable = focusableElements[0];
+    const lastFocusable = focusableElements[focusableElements.length - 1];
+
+    if (event.shiftKey && document.activeElement === firstFocusable) {
+      event.preventDefault();
+      lastFocusable.focus();
+    } else if (!event.shiftKey && document.activeElement === lastFocusable) {
+      event.preventDefault();
+      firstFocusable.focus();
+    }
+  });
+}
+
+function initializeHomeHeader() {
+  const headerInfo = document.getElementById("header-info");
+  const headerBackground = document.getElementById("header-background");
+  const headerInfoContainer = document.getElementById("header-info-container");
+  const headerInfoInContent = document.getElementById("header-info-in-content");
+
+  if (!headerInfo || !headerBackground || !headerInfoContainer || !headerInfoInContent) {
+    return;
+  }
+
+  const showHeaderInfoThreshold =
+    headerInfoInContent.getBoundingClientRect().bottom + window.scrollY;
+
+  headerInfo.classList.add("opacity-0");
+  headerBackground.classList.add("max-md:opacity-0");
+
+  function checkScrollPosition() {
+    if (window.scrollY > showHeaderInfoThreshold) {
+      headerInfo.classList.remove("opacity-0");
+      headerBackground.classList.remove("max-md:opacity-0");
+    } else {
+      headerInfo.classList.add("opacity-0");
+      headerBackground.classList.add("max-md:opacity-0");
+    }
+  }
+
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      headerInfo.classList.add("transition-opacity");
+      headerInfo.classList.add("duration-300");
+      headerBackground.classList.add("max-md:transition-opacity");
+      headerBackground.classList.add("max-md:duration-300");
+    }, 0);
+  });
+
+  checkScrollPosition();
+  window.addEventListener("scroll", checkScrollPosition);
+}
+
+function initializePage() {
+  initializeMobileMenu();
+  initializeHomeHeader();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializePage);
+} else {
+  initializePage();
+}

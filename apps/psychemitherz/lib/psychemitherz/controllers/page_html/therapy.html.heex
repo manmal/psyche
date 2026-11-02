@@ -2,7 +2,7 @@
 <.deco path={~p"/images/deco-wave-1.svg"} css_class="md:hidden" />
 <.main_content>
   <div class="mt-4" />
-  <.header_1 top_padding?={false} center?={true}>Therapeutische Angebote</.header_1>
+  <.header_1 level={1} top_padding?={false} center?={true}>Therapeutische Angebote</.header_1>
 </.main_content>
 <.main_content>
   <div class="mt-8" />
@@ -10,6 +10,9 @@
     title="Systemische Einzeltherapie"
     bg_color="bg-green-100"
     bg_image={~p"/images/systemische_einzeltherapie.png"}
+    bg_image_webp={~p"/images/systemische_einzeltherapie.webp"}
+    bg_image_width={370}
+    bg_image_height={234}
   />
   <p class="mt-4">
     Grund für das Aufsuchen einer Psychotherapie ist zumeist verbunden mit einem persönlichen
@@ -27,7 +30,7 @@
     Ich arbeite im Einzelsetting mit Erwachsenen und Jugendlichen. <br />
     In Einzelfällen (und vorheriger Abklärung) ist auch die Einzelarbeit mit Kindern möglich.
   </p>
-  <p>
+  <div class="my-4">
     Mögliche Themen:
     <.list_with_dots>
       <li>Lebenskrisen</li>
@@ -48,7 +51,7 @@
         Verhaltens„auffälligkeiten“ und plötzliche Verhaltensänderungen bei Kindern und Jugendlichen
       </li>
     </.list_with_dots>
-  </p>
+  </div>
   <p>
     Sollten Sie ihr Thema nicht in der Auflistung finden, melden Sie sich gerne bei mir und wir
     klären individuell ab, ob Psychotherapie eine geeignete Methode wäre und wie ich Ihnen dabei
@@ -69,6 +72,9 @@
     title="Paar- und Familientherapie"
     bg_color="bg-pink-base"
     bg_image={~p"/images/paar_familientherapie.png"}
+    bg_image_webp={~p"/images/paar_familientherapie.webp"}
+    bg_image_width={370}
+    bg_image_height={202}
   />
 
   <div class="mt-4" />
@@ -81,7 +87,7 @@
     Gerne begleite ich Sie dabei auf Ihrem Weg.
   </p>
 
-  <p>
+  <div class="my-4">
     Mögliche Themen:
     <.list_with_dots>
       <li>Beziehungskrisen</li>
@@ -93,7 +99,7 @@
       <li>Verlusterlebnisse (Trennungen, Tod)</li>
       <li>Entscheidungsprozesse</li>
     </.list_with_dots>
-  </p>
+  </div>
 
   <p>
     Sollten Sie ihr Thema nicht in der Auflistung finden, melden Sie sich gerne bei mir und wir
@@ -107,6 +113,9 @@
     title="Gruppenangebote"
     bg_color="bg-yellow-300"
     bg_image={~p"/images/gruppenangebote.png"}
+    bg_image_webp={~p"/images/gruppenangebote.webp"}
+    bg_image_width={392}
+    bg_image_height={202}
   />
 
   <div class="mt-4" />
@@ -122,6 +131,9 @@
     title="Selbsterfahrung und Coaching"
     bg_color="bg-green-100"
     bg_image={~p"/images/selbsterfahrung_coaching.png"}
+    bg_image_webp={~p"/images/selbsterfahrung_coaching.webp"}
+    bg_image_width={392}
+    bg_image_height={234}
   />
 
   <div class="mt-4" />
@@ -131,7 +143,7 @@
     kennenzulernen und persönliche Herausforderungen zu reflektieren.
   </p>
 
-  <p>
+  <div class="my-4">
     Mögliche Themen:
     <.list_with_dots>
       <li>positive Beziehung zu sich selbst aufbauen und zu stärken</li>
@@ -139,7 +151,7 @@
       <li>eigene Bedürfnisse und Werte besser kennen zu lernen</li>
       <li>Eigene Verhaltens- und Beziehungsmuster besser zu verstehen</li>
     </.list_with_dots>
-  </p>
+  </div>
 
   <p>
     Sollten Sie ihr Thema nicht in der Auflistung finden, melden Sie sich gerne bei mir und wir

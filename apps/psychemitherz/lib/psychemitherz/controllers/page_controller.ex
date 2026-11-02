@@ -2,25 +2,17 @@ defmodule Psychemitherz.PageController do
   use Psychemitherz, :controller
   import Psychemitherz.ContactData
 
-  def home(conn, _params) do
-    render(conn, :home)
-  end
+  alias Psychemitherz.SEO
 
-  def about(conn, _params) do
-    render(conn, :about)
-  end
+  def home(conn, _params), do: render_page(conn, :home, :home)
 
-  def therapy(conn, _params) do
-    render(conn, :therapy)
-  end
+  def about(conn, _params), do: render_page(conn, :about, :about)
 
-  def counseling(conn, _params) do
-    render(conn, :counseling)
-  end
+  def therapy(conn, _params), do: render_page(conn, :therapy, :therapy)
 
-  def contact(conn, _params) do
-    render(conn, :contact)
-  end
+  def counseling(conn, _params), do: render_page(conn, :counseling, :counseling)
+
+  def contact(conn, _params), do: render_page(conn, :contact, :contact)
 
   def vcard(conn, _params) do
     priv_dir = :code.priv_dir(:psychemitherz)
@@ -43,6 +35,12 @@ defmodule Psychemitherz.PageController do
 
     conn
     |> put_resp_content_type("text/vcard")
+    |> put_resp_header("content-disposition", ~s(attachment; filename="bianca-maly.vcf"))
+    |> put_resp_header("x-robots-tag", "noindex, nofollow")
     |> send_resp(200, vcard_data)
+  end
+
+  defp render_page(conn, template, page_key) do
+    render(conn, template, seo: SEO.page(page_key))
   end
 end

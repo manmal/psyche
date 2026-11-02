@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   psychemitherz:
-    restart: unless-stopped
+    restart: always
     build:
       context: .
       dockerfile: ./apps/psychemitherz/Dockerfile
@@ -11,9 +11,17 @@ services:
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
     networks:
       - webnet
-    ports:
-      - "4000:4000"
     command: /app/bin/psychemitherz start
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.psychemitherz.loadbalancer.server.port=4000"
+      - "traefik.http.routers.psychemitherz.rule=Host(`psychemitherz.at`) || Host(`www.psychemitherz.at`)"
+      - "traefik.http.routers.psychemitherz.entrypoints=websecure"
+      - "traefik.http.routers.psychemitherz.tls.certresolver=http_resolver"
+      
+      - "traefik.http.routers.psychemitherz-pharos.rule=Host(`psychemitherz.pharos.re`)"
+      - "traefik.http.routers.psychemitherz-pharos.entrypoints=websecure"
+      - "traefik.http.routers.psychemitherz-pharos.tls.certresolver=http_resolver"
 networks:
   webnet:
     external: true

@@ -7,51 +7,15 @@
     <.psychemitherz_logo_full />
     <div class="mt-2 md:hidden mx-auto md:mx-0"><.name_and_email large?={true} /></div>
   </div>
-  <script>
-    const headerInfo = document.getElementById("header-info");
-    const headerBackground = document.getElementById("header-background");
-    const headerInfoContainer = document.getElementById("header-info-container");
-    const headerInfoInContent = document.getElementById("header-info-in-content");
-    const showHeaderInfoThreshold = headerInfoInContent === null ? 
-      0 : 
-      headerInfoInContent.getBoundingClientRect().bottom + window.scrollY;
-
-    headerInfo.classList.add("opacity-0");
-    headerBackground.classList.add("max-md:opacity-0");
-
-    function checkScrollPosition() {
-        if (window.scrollY > showHeaderInfoThreshold) {
-            headerInfo.classList.remove("opacity-0");
-            headerBackground.classList.remove("max-md:opacity-0");
-        } else {
-            headerInfo.classList.add("opacity-0");
-            headerBackground.classList.add("max-md:opacity-0");
-        }
-    }
-
-    window.addEventListener('load', function() {
-      setTimeout(() => {
-          headerInfo.classList.add("transition-opacity");
-          headerInfo.classList.add("duration-300");
-          headerBackground.classList.add("max-md:transition-opacity");
-          headerBackground.classList.add("max-md:duration-300");
-      }, 0);
-    });
-
-    checkScrollPosition();
-    window.addEventListener("scroll", checkScrollPosition);
-  </script>
 </.main_content>
 <.deco path={~p"/images/deco-wave-1.svg"} css_class="mt-[16rem] md:mt-[14rem]" />
 <.main_content>
   <div class="flex flex-col md:flex-row pt-8 md:gap-12 md:pl-24">
     <.portrait_pic_with_deco />
     <div class="mt-8 md:mt-0">
-      <.header_1 top_padding?={false}>Über mich</.header_1>
+      <.header_1 level={1} top_padding?={false}>Über mich</.header_1>
       <p>
-        Mein Name ist Bianca Maly, und ich bin
-        <b>Psychotherapeutin</b>
-        und <b>Psychologin</b>.
+        Mein Name ist Bianca Maly, und ich bin <b>Psychotherapeutin</b> und <b>Psychologin</b>.
       </p>
       <p>
         Ich biete Hilfe bei psychischen Problemen, Erkrankungen und persönlichen Herausforderungen und stehe Ihnen dabei einfühlsam und vertrauensvoll zur Seite.
@@ -70,6 +34,9 @@
         subtitle="Derzeit auch online möglich"
         bg_color="bg-green-100"
         bg_image={~p"/images/systemische_einzeltherapie.png"}
+        bg_image_webp={~p"/images/systemische_einzeltherapie.webp"}
+        bg_image_width={370}
+        bg_image_height={234}
         url={~p"/therapie#systemische-einzeltherapie"}
       />
     </div>
@@ -78,6 +45,9 @@
         title="Paar- und Familientherapie"
         bg_color="bg-pink-base"
         bg_image={~p"/images/paar_familientherapie.png"}
+        bg_image_webp={~p"/images/paar_familientherapie.webp"}
+        bg_image_width={370}
+        bg_image_height={202}
         url={~p"/therapie#paar-und-familientherapie"}
       />
     </div>
@@ -86,6 +56,9 @@
         title="Gruppenangebote"
         bg_color="bg-yellow-300"
         bg_image={~p"/images/gruppenangebote.png"}
+        bg_image_webp={~p"/images/gruppenangebote.webp"}
+        bg_image_width={392}
+        bg_image_height={202}
         url={~p"/therapie#gruppenangebote"}
       />
     </div>
@@ -95,6 +68,9 @@
         subtitle="Derzeit auch online möglich"
         bg_color="bg-green-100"
         bg_image={~p"/images/selbsterfahrung_coaching.png"}
+        bg_image_webp={~p"/images/selbsterfahrung_coaching.webp"}
+        bg_image_width={392}
+        bg_image_height={234}
         url={~p"/therapie#selbsterfahrung-und-coaching"}
       />
     </div>
@@ -108,6 +84,9 @@
       title="Your Happy Family"
       bg_color="bg-pink-light"
       bg_image={~p"/images/your_happy_family.png"}
+      bg_image_webp={~p"/images/your_happy_family.webp"}
+      bg_image_width={392}
+      bg_image_height={202}
       url={~p"/beratungen"}
     />
   </div>
@@ -151,8 +130,7 @@
     Gerne unterhalten wir uns darüber im Erstgespräch.
   </p>
   <p>
-    Sie können die Therapiekosten aber auch bei Ihrer Arbeitnehmer*innenveranlagung
-    <a
+    Sie können die Therapiekosten aber auch bei Ihrer Arbeitnehmer*innenveranlagung <a
       href="https://www.bmf.gv.at/themen/steuern/arbeitnehmerveranlagung/was-kann-ich-geltend-machen/aussergewoehnliche-belastungen/aussergewoehnliche-belastungen-mit-selbstbehalt.html"
       class="font-semibold underline decoration-green-500 decoration-2 underline-offset-4 hover:text-green-600 transition duration-300"
       target="_blank"

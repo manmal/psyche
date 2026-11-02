@@ -24,9 +24,9 @@
         %MenuItemContainer{
           title: "Weitere Infos",
           sub_items: [
-            %MenuItemLeaf{title: "Infobereich", url: "#"},
-            %MenuItemLeaf{title: "AGBs", url: "#"},
-            %MenuItemLeaf{title: "Impressum", url: "#"}
+            %MenuItemLeaf{title: "Infobereich", url: nil},
+            %MenuItemLeaf{title: "AGBs", url: nil},
+            %MenuItemLeaf{title: "Impressum", url: nil}
           ],
           title_css_class: "text-yellow-700",
           bg_css_class: "bg-yellow-200"
@@ -36,18 +36,26 @@
     />
   </header>
 
-  <.flash_group flash={@flash} />
-
-  <%= @inner_content %>
+  <main id="main">
+    <%= @inner_content %>
+  </main>
   <div class="grow" />
   <div class="bg-green-100 py-2">
-    <img src={~p"/images/logo_full_small.png"} width="90" height="47.5" class="mx-auto" />
+    <img
+      src={~p"/images/logo_full_small.webp"}
+      width="181"
+      height="96"
+      alt=""
+      loading="lazy"
+      decoding="async"
+      class="mx-auto w-[90px] h-[47.5px]"
+    />
   </div>
   <div class="flex flex-col bg-green-300 p-8 gap-6 items-center">
     <div class="flex flex-col gap-4 items-center">
       <.link_arrow text="AGBs" overlay?={true} />
       <.link_arrow text="Impressum" overlay?={true} />
     </div>
-    <span class="font-semibold text-sm text-green-700 mt-2">© 2023 <.full_name /></span>
+    <span class="font-semibold text-sm text-green-900 mt-2">© 2023 <.full_name /></span>
   </div>
 </div>

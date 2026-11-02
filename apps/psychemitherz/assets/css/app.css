@@ -34,6 +34,7 @@
     font-family: 'Merriweather';
     font-style: normal;
     font-weight: medium;
+    font-display: swap;
     src: local(''),
       url('/fonts/merriweather-regular.woff2') format('woff2'),
       url('/fonts/merriweather-regular.woff') format('woff'),
@@ -43,6 +44,7 @@
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
+    font-display: swap;
     src: local(''),
       url('/fonts/Inter-Regular.woff2') format('woff2'),
       url('/fonts/Inter-Regular.woff') format('woff'),
@@ -52,6 +54,7 @@
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
+    font-display: swap;
     src: local(''),
       url('/fonts/Inter-Medium.woff2') format('woff2'),
       url('/fonts/Inter-Medium.woff') format('woff'),
@@ -61,7 +64,19 @@
     font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
+    font-display: swap;
     src: local(''),
       url('/fonts/Inter-SemiBold.woff2') format('woff2'),
       url('/fonts/Inter-SemiBold.woff') format('woff'),
   }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
